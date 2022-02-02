@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/go-resty/resty/v2"
+	"github.com/littleya/routeros-rest/types"
 )
 
 type Client struct {
@@ -39,7 +40,8 @@ func NewClient(address, username, password string, tlsConfig *tls.Config) (*Clie
 }
 
 func (c *Client) Verify() error {
-	_, err := c.GetSystemRouterboard()
+	r := types.SystemRouterboard{}
+	err := c.GetStruct(&r, map[string]string{})
 	if err != nil {
 		return fmt.Errorf(fmt.Sprintf("Failed verify client, error: %s", err))
 	}
